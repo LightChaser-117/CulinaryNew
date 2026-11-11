@@ -1,0 +1,6 @@
+{
+  "name": "Culinary Echo",
+  "description": "A Living Social Network for Food, Taste, Memory and Discovery. Built with deterministic algorithmic pairing from FlavorDB, RecipeDB, and CocktailDB with zero black-box AI dependency.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
