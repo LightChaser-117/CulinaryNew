@@ -17,7 +17,8 @@ import {
 import {
   LivingContribution,
   CommunityCircle,
-  RecreationResult
+  RecreationResult,
+  RecipeDBItem
 } from './types';
 import { GastronomyEngine } from './services/gastronomyEngine';
 import { Navbar } from './components/Navbar';
@@ -29,8 +30,12 @@ import { ContributionLineageView } from './components/ContributionLineageView';
 import { SensoryCirclesView } from './components/SensoryCirclesView';
 import { PersonalCabinetView } from './components/PersonalCabinetView';
 import { ShareModal } from './components/ShareModal';
+import { IndianTechniquesModal } from './components/IndianTechniquesModal';
+import { KitchenPantryFinder } from './components/KitchenPantryFinder';
+import { SimpleRecipeModal } from './components/SimpleRecipeModal';
+import { EVERYDAY_HOME_STAPLES } from './data/pantryDatabase';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { Sparkles, GitBranch, ChefHat, Check, Heart, BookOpen, Compass } from 'lucide-react';
+import { Sparkles, GitBranch, ChefHat, Check, Heart, BookOpen, Compass, Flame, ShoppingBag } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'feed' | 'graph' | 'lineage' | 'circles' | 'cabinet'>('feed');
@@ -44,6 +49,13 @@ export default function App() {
     return initialSaved;
   });
 
+  // User Kitchen Pantry selection
+  const [userPantryItems, setUserPantryItems] = useState<Set<string>>(
+    () => new Set(EVERYDAY_HOME_STAPLES.slice(0, 9))
+  );
+  const [activeRecipeModalItem, setActiveRecipeModalItem] = useState<RecipeDBItem | LivingContribution | null>(null);
+  const [showPantryFinder, setShowPantryFinder] = useState<boolean>(true);
+
   // Filter & Search state
   const [selectedSensoryTag, setSelectedSensoryTag] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -51,6 +63,7 @@ export default function App() {
   // Modals state
   const [activeRecreationDish, setActiveRecreationDish] = useState<LivingContribution | null>(null);
   const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
+  const [isTechniquesModalOpen, setIsTechniquesModalOpen] = useState<boolean>(false);
   const [shareParentDish, setShareParentDish] = useState<LivingContribution | null>(null);
   const [recreationResultForVariation, setRecreationResultForVariation] = useState<RecreationResult | null>(null);
 
@@ -112,6 +125,34 @@ export default function App() {
 
   const handleCloseRecreation = () => {
     setActiveRecreationDish(null);
+  };
+
+  const handleTogglePantryItem = (itemName: string) => {
+    setUserPantryItems(prev => {
+      const next = new Set(prev);
+      if (next.has(itemName)) {
+        next.delete(itemName);
+        showToast(`Removed ${itemName} from your kitchen`);
+      } else {
+        next.add(itemName);
+        showToast(`Added ${itemName} to your kitchen`);
+      }
+      return next;
+    });
+  };
+
+  const handleClearPantry = () => {
+    setUserPantryItems(new Set());
+    showToast('Kitchen pantry reset');
+  };
+
+  const handleSelectEverydayStaples = () => {
+    setUserPantryItems(new Set(EVERYDAY_HOME_STAPLES));
+    showToast('Added 15 everyday home cooking staples!');
+  };
+
+  const handleOpenRecipe = (recipe: RecipeDBItem | LivingContribution) => {
+    setActiveRecipeModalItem(recipe);
   };
 
   const handleRecordVariationFromRecreation = (
@@ -213,39 +254,105 @@ export default function App() {
         {/* Tab 1: Discover Feed */}
         {activeTab === 'feed' && (
           <div className="space-y-6 sm:space-y-8">
-            {/* Editorial Hero Intro Banner */}
+            {/* Editorial Hero Intro Banner - Simple, Catchy, Warm */}
             <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/90 shadow-xs">
               <div className="max-w-3xl">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-mono uppercase tracking-wider text-amber-900 font-semibold">
-                    Living Culinary Network
+                  <span className="text-xs font-mono uppercase tracking-wider text-amber-900 font-bold bg-amber-100/70 px-2 py-0.5 rounded-md">
+                    Everyday Kitchen Magic
                   </span>
                   <span className="text-stone-300">·</span>
-                  <span className="text-xs text-stone-500">Zero Black-Box AI Dependency</span>
+                  <span className="text-xs text-stone-500">Cook With What You Have</span>
                 </div>
                 <h1 className="text-3xl sm:text-4xl font-serif font-bold text-stone-900 tracking-tight text-balance leading-tight">
-                  Where Food Memories, Volatiles & Kitchen Realities Meet.
+                  Delicious Home Cooking, Made Simple.
                 </h1>
                 <p className="text-sm sm:text-base text-stone-600 mt-2.5 leading-relaxed">
-                  Discover regional dishes, family heritage flavours, and culinary experiments. Connect them with peer-reviewed aroma volatiles from <strong>FlavorDB</strong>, authentic processes from <strong>RecipeDB</strong>, and practical adaptive recreation pathways that work with what you have.
+                  Got potatoes, onions, dal, or paneer? Pick your ingredients below to discover comforting family recipes, quick swaps for missing items, and the little secrets that make home food taste incredible.
                 </p>
 
                 {/* Subtitle anchor points */}
                 <div className="mt-5 pt-5 border-t border-stone-100 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-stone-600">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-amber-700" />
-                    <span>Deterministic Jaccard Aroma Pairing</span>
+                    <span>Everyday Pantry Ingredients</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-amber-700" />
-                    <span>Transparent Substitution Trade-Offs</span>
+                    <span>Easy Swaps If You're Missing Something</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-amber-700" />
-                    <span>Traceable Lineage & Creator Attribution</span>
+                    <span>Simple Step-by-Step Recipes</span>
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Kitchen Pantry Finder: Clustered by Dairy, Veggies, Dals & Flours, Spices, etc. */}
+            <KitchenPantryFinder
+              selectedItems={userPantryItems}
+              onToggleItem={handleTogglePantryItem}
+              onClearAll={handleClearPantry}
+              onSelectStaples={handleSelectEverydayStaples}
+              onCookRecipe={handleOpenRecipe}
+              posts={posts}
+            />
+
+            {/* The 5 Secrets of Indian Cooking Spotlight */}
+            <div className="bg-gradient-to-r from-amber-50/90 via-stone-50 to-orange-50/70 rounded-3xl p-5 sm:p-6 border border-amber-200/80 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+              <div className="space-y-1.5 max-w-2xl">
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-amber-900 font-bold bg-amber-100/80 px-2 py-0.5 rounded-md">
+                    Home Chef Spotlight
+                  </span>
+                  <span className="text-xs text-stone-500">· Traditional Kitchen Secrets</span>
+                </div>
+                <h2 className="text-lg sm:text-xl font-serif font-bold text-stone-900">
+                  The 5 Little Secrets of Great Indian Cooking
+                </h2>
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                  Why crackling cumin in hot ghee (tadka), trapping charcoal smoke (dhungar), and slow browning (bhunao) make everyday home meals taste unforgettable.
+                </p>
+                <div className="flex flex-wrap items-center gap-2 pt-1 text-xs">
+                  <span className="text-[11px] font-semibold text-stone-500">Quick comfort favorites:</span>
+                  <button
+                    onClick={() => {
+                      setSearchQuery('Aloo Paratha');
+                      setSelectedSensoryTag(null);
+                    }}
+                    className="px-2.5 py-1 bg-white hover:bg-stone-100 border border-stone-200 rounded-lg text-stone-700 font-medium transition-colors cursor-pointer"
+                  >
+                    🫓 Crispy Aloo Paratha
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSearchQuery('Dal Tadka');
+                      setSelectedSensoryTag(null);
+                    }}
+                    className="px-2.5 py-1 bg-white hover:bg-stone-100 border border-stone-200 rounded-lg text-stone-700 font-medium transition-colors cursor-pointer"
+                  >
+                    🍛 Sizzling Dal Tadka
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSearchQuery('Paneer Bhurji');
+                      setSelectedSensoryTag(null);
+                    }}
+                    className="px-2.5 py-1 bg-white hover:bg-stone-100 border border-stone-200 rounded-lg text-stone-700 font-medium transition-colors cursor-pointer"
+                  >
+                    🧀 15-Min Paneer Bhurji
+                  </button>
+                </div>
+              </div>
+
+              <button
+                onClick={() => setIsTechniquesModalOpen(true)}
+                className="px-5 py-3 bg-amber-900 hover:bg-amber-950 text-white text-xs font-semibold rounded-2xl shadow-sm transition-all flex items-center gap-2 whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <Flame className="w-4 h-4 text-amber-300" />
+                <span>The 5 Kitchen Secrets</span>
+              </button>
             </div>
 
             {/* Sensory Filter Bar */}
@@ -369,6 +476,46 @@ export default function App() {
           onSubmit={handlePublishContribution}
           parentDish={shareParentDish}
           recreationResult={recreationResultForVariation}
+        />
+      )}
+
+      {/* Indian Cooking Techniques & Flavor Science Guide */}
+      {isTechniquesModalOpen && (
+        <IndianTechniquesModal
+          isOpen={isTechniquesModalOpen}
+          onClose={() => setIsTechniquesModalOpen(false)}
+        />
+      )}
+
+      {/* Simple Homestyle Recipe Modal */}
+      {activeRecipeModalItem && (
+        <SimpleRecipeModal
+          recipe={activeRecipeModalItem}
+          onClose={() => setActiveRecipeModalItem(null)}
+          onAdaptWithPantry={(rec) => {
+            if ('parentId' in rec) {
+              setActiveRecreationDish(rec as LivingContribution);
+            } else {
+              const asPost: LivingContribution = {
+                id: (rec as RecipeDBItem).id,
+                author: 'Indian Home Kitchen',
+                authorAvatar: 'H',
+                title: rec.title,
+                category: (rec as RecipeDBItem).cuisine,
+                story: (rec as RecipeDBItem).process.join(' '),
+                image: '',
+                ingredients: rec.ingredients,
+                sensory: rec.sensory,
+                parentId: null,
+                variationType: 'Home Recipe',
+                likes: 50,
+                saved: false,
+                createdAt: 'Traditional'
+              };
+              setActiveRecreationDish(asPost);
+            }
+          }}
+          userPantryItems={userPantryItems}
         />
       )}
 

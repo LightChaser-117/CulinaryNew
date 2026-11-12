@@ -32,7 +32,17 @@ const PLAIN_SCENT_TRANSLATIONS: Record<string, string> = {
   Cuminaldehyde: 'Earthy warm toasted spice',
   Anethole: 'Sweet licorice & herbal warmth',
   Theobromine: 'Deep bittersweet dark chocolate',
-  'Tartaric acid': 'Tangy fruit acidity'
+  'Tartaric acid': 'Tangy fruit acidity',
+  Sotolon: 'Warm toasted maple, fenugreek & brown sugar',
+  '(E)-2-Alkenyl disulfides': 'Savory roasted allium & garlic warmth',
+  'Allyl isothiocyanate': 'Pungent crackling mustard warmth',
+  Caryophyllene: 'Spicy woody black pepper & herbal warmth',
+  Maltol: 'Sweet toasted sugar & rich butter',
+  'Alpha-pinene': 'Fresh pine forest & evergreen freshness',
+  Diacetyl: 'Velvety melted butter & toasted cream',
+  'Butyric acid': 'Aged buttery nuttiness & golden ghee aroma',
+  Citronellol: 'Sweet floral citrus & fresh crushed leaf',
+  Myrcene: 'Peppery green mango & herbal freshness'
 };
 
 export const FlavorDBExplorer: React.FC<FlavorDBExplorerProps> = ({
@@ -358,6 +368,86 @@ export const FlavorDBExplorer: React.FC<FlavorDBExplorerProps> = ({
                 );
               })}
             </div>
+          </div>
+        </div>
+
+        {/* Section 2: Secret Food Twins (Fun Computational Gastronomy Discoveries) */}
+        <div className="mt-12 pt-8 border-t border-stone-200">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-6">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-amber-900 font-bold">
+                  Secret Food Twins
+                </span>
+                <span className="text-stone-300">·</span>
+                <span className="text-xs text-stone-500">Unexpected Scientific Connections</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-serif font-bold text-stone-900">
+                Surprising Pairings That Work Wonders
+              </h3>
+              <p className="text-xs sm:text-sm text-stone-600 mt-1 max-w-2xl leading-relaxed">
+                These ingredients sound like an unusual match, but computational gastronomy proves they share vital aroma bridges. Tap any card to test their chemistry!
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {GastronomyEngine.getSecretPairings().map(twin => (
+              <div
+                key={twin.id}
+                className="p-5 rounded-2xl bg-stone-50 hover:bg-white border border-stone-200 hover:border-amber-700/60 transition-all shadow-2xs hover:shadow-xs flex flex-col justify-between space-y-3"
+              >
+                <div>
+                  <div className="flex items-center justify-between text-[11px] mb-2">
+                    <span className="font-semibold text-amber-900 bg-amber-100/70 px-2 py-0.5 rounded-md">
+                      {twin.badge}
+                    </span>
+                    <span className="font-mono text-stone-600 font-bold tabular-nums">
+                      {twin.matchScore}% Synergy
+                    </span>
+                  </div>
+
+                  <h4 className="text-base font-serif font-bold text-stone-900">
+                    {twin.itemA} + {twin.itemB}
+                  </h4>
+
+                  <span className="text-[11px] text-stone-500 block mt-0.5 font-medium">
+                    {twin.cuisineCrossover}
+                  </span>
+
+                  <p className="text-xs text-stone-700 mt-2 leading-relaxed">
+                    {twin.secretLink}
+                  </p>
+
+                  <div className="mt-3 p-2.5 rounded-xl bg-white border border-stone-200/90 text-[11px] text-stone-700">
+                    <span className="font-bold text-stone-900 block mb-0.5">Kitchen Experiment:</span>
+                    {twin.kitchenTip}
+                  </div>
+                </div>
+
+                <div className="pt-2 border-t border-stone-200/70 flex items-center justify-between text-xs">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedAnchor(twin.itemA);
+                      setCompareTarget(twin.itemB);
+                      window.scrollTo({ top: 350, behavior: 'smooth' });
+                    }}
+                    className="font-semibold text-amber-900 hover:underline flex items-center gap-1"
+                  >
+                    <span>Test In Pair Sandbox</span>
+                    <ArrowRight className="w-3 h-3" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onExploreIngredientInFeed(twin.itemA)}
+                    className="text-[11px] text-stone-500 hover:text-stone-900"
+                  >
+                    View Recipes
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

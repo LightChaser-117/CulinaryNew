@@ -110,3 +110,30 @@ export interface CompoundSimilarity {
 export interface LineageNode extends LivingContribution {
   children: LineageNode[];
 }
+
+export interface DishSensoryProfile {
+  dimensions: {
+    smoky: number;
+    sourTart: number;
+    warmSpice: number;
+    velvety: number;
+    brightCitrus: number;
+    earthy: number;
+  };
+  harmonyScore: number;
+  dominantBridge: string;
+  sharedVolatilesFound: string[];
+  funTwist: string;
+}
+
+export interface SecretPairing {
+  id: string;
+  itemA: string;
+  itemB: string;
+  matchScore: number;
+  badge: string;
+  secretLink: string;
+  kitchenTip: string;
+  cuisineCrossover: string;
+}
+

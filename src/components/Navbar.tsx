@@ -41,43 +41,43 @@ export const Navbar: React.FC<NavbarProps> = ({
         <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-stone-600">
           <button
             onClick={() => onSelectTab('feed')}
-            className={`whitespace-nowrap shrink-0 pb-1 border-b-2 transition-colors ${
+            className={`whitespace-nowrap shrink-0 pb-1 border-b-2 transition-colors cursor-pointer ${
               activeTab === 'feed'
                 ? 'border-amber-800 text-stone-900 font-semibold'
                 : 'border-transparent hover:text-stone-900 hover:border-stone-300'
             }`}
           >
-            Discover Feed
+            Discover Recipes
           </button>
           <button
             onClick={() => onSelectTab('graph')}
-            className={`whitespace-nowrap shrink-0 pb-1 border-b-2 transition-colors ${
+            className={`whitespace-nowrap shrink-0 pb-1 border-b-2 transition-colors cursor-pointer ${
               activeTab === 'graph'
                 ? 'border-amber-800 text-stone-900 font-semibold'
                 : 'border-transparent hover:text-stone-900 hover:border-stone-300'
             }`}
           >
-            Compound Matrix
+            Flavor Pairs
           </button>
           <button
             onClick={() => onSelectTab('lineage')}
-            className={`whitespace-nowrap shrink-0 pb-1 border-b-2 transition-colors ${
+            className={`whitespace-nowrap shrink-0 pb-1 border-b-2 transition-colors cursor-pointer ${
               activeTab === 'lineage'
                 ? 'border-amber-800 text-stone-900 font-semibold'
                 : 'border-transparent hover:text-stone-900 hover:border-stone-300'
             }`}
           >
-            Contribution Lineage
+            Recipe Family Tree
           </button>
           <button
             onClick={() => onSelectTab('circles')}
-            className={`whitespace-nowrap shrink-0 pb-1 border-b-2 transition-colors ${
+            className={`whitespace-nowrap shrink-0 pb-1 border-b-2 transition-colors cursor-pointer ${
               activeTab === 'circles'
                 ? 'border-amber-800 text-stone-900 font-semibold'
                 : 'border-transparent hover:text-stone-900 hover:border-stone-300'
             }`}
           >
-            Sensory Circles
+            Food Circles
           </button>
         </nav>
 
@@ -85,13 +85,13 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={() => onSelectTab('cabinet')}
-            className={`p-2 rounded-xl border transition-colors relative ${
+            className={`p-2 rounded-xl border transition-colors relative cursor-pointer ${
               activeTab === 'cabinet'
                 ? 'bg-stone-900 text-white border-stone-900'
                 : 'bg-white text-stone-700 border-stone-200 hover:border-stone-300 hover:bg-stone-50'
             }`}
-            title="Personal Cabinet"
-            aria-label="Personal Cabinet"
+            title="Saved Recipes"
+            aria-label="Saved Recipes"
           >
             <Bookmark className="w-4 h-4" />
             {savedCount > 0 && (
@@ -103,10 +103,10 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           <button
             onClick={onOpenShareModal}
-            className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-stone-900 rounded-xl hover:bg-amber-950 transition-colors shadow-xs whitespace-nowrap shrink-0"
+            className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-white bg-stone-900 rounded-xl hover:bg-amber-950 transition-colors shadow-xs whitespace-nowrap shrink-0 cursor-pointer"
           >
             <Plus className="w-3.5 h-3.5" />
-            <span>Share Experience</span>
+            <span>Share Dish</span>
           </button>
         </div>
       </div>
@@ -123,19 +123,19 @@ export const Navbar: React.FC<NavbarProps> = ({
           onClick={() => onSelectTab('graph')}
           className={`px-2.5 py-1 rounded-lg ${activeTab === 'graph' ? 'bg-stone-200 text-stone-900 font-bold' : ''}`}
         >
-          Compounds
+          Flavor Pairs
         </button>
         <button
           onClick={() => onSelectTab('lineage')}
           className={`px-2.5 py-1 rounded-lg ${activeTab === 'lineage' ? 'bg-stone-200 text-stone-900 font-bold' : ''}`}
         >
-          Lineage
+          Family Tree
         </button>
         <button
           onClick={() => onSelectTab('circles')}
           className={`px-2.5 py-1 rounded-lg ${activeTab === 'circles' ? 'bg-stone-200 text-stone-900 font-bold' : ''}`}
         >
-          Circles
+          Food Circles
         </button>
       </div>
     </header>

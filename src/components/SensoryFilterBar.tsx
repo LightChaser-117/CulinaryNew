@@ -16,13 +16,13 @@ interface SensoryFilterBarProps {
 }
 
 const SENSORY_TAGS = [
-  { label: 'Smoky', hint: 'Guaiacol / Fire-Char' },
-  { label: 'Tart & Sour', hint: 'Tartaric / Citrus' },
-  { label: 'Earthy', hint: 'Pyrazines / Terpenes' },
-  { label: 'Citrus', hint: 'Citral / Limonene' },
-  { label: 'Velvety', hint: 'Rich Lipids / Lactones' },
-  { label: 'Woodsy Warmth', hint: 'Eugenol / Clove' },
-  { label: 'Effervescent', hint: 'Tonic / Sparkling' }
+  { label: 'Smoky', hint: 'Charcoal & Campfire' },
+  { label: 'Tart & Sour', hint: 'Tangy Lemon & Tamarind' },
+  { label: 'Comforting', hint: 'Warm Dal & Toasted Ghee' },
+  { label: 'Citrus', hint: 'Fresh Herbs & Lime' },
+  { label: 'Velvety', hint: 'Melting Butter & Cream' },
+  { label: 'Woodsy Warmth', hint: 'Cardamom & Cloves' },
+  { label: 'Earthy', hint: 'Toasted Cumin & Mustard' }
 ];
 
 export const SensoryFilterBar: React.FC<SensoryFilterBarProps> = ({
@@ -43,7 +43,7 @@ export const SensoryFilterBar: React.FC<SensoryFilterBarProps> = ({
             type="text"
             value={searchQuery}
             onChange={e => onSearchChange(e.target.value)}
-            placeholder="Search by dish, memory, ingredient, volatile (e.g. guaiacol, citral)..."
+            placeholder="Search by dish, ingredient or taste (e.g. Aloo, Dal, Paneer, Biryani, smoky)..."
             className="w-full pl-9 pr-9 py-2 text-xs sm:text-sm bg-stone-50 hover:bg-stone-100/70 focus:bg-white border border-stone-200 focus:border-stone-400 rounded-xl focus:outline-none focus:ring-1 focus:ring-stone-400 transition-colors placeholder:text-stone-400"
           />
           {searchQuery && (
@@ -58,7 +58,7 @@ export const SensoryFilterBar: React.FC<SensoryFilterBarProps> = ({
 
         <div className="flex items-center justify-between sm:justify-end gap-3 text-xs text-stone-500">
           <span className="tabular-nums font-mono text-[11px] text-stone-600">
-            {totalResults} {totalResults === 1 ? 'experience' : 'experiences'} found
+            {totalResults} {totalResults === 1 ? 'dish' : 'dishes'} found
           </span>
           {(selectedTag || searchQuery) && (
             <button
@@ -76,10 +76,10 @@ export const SensoryFilterBar: React.FC<SensoryFilterBarProps> = ({
         <div className="flex items-center justify-between mb-2">
           <span className="text-[11px] font-semibold uppercase tracking-wider text-stone-500 flex items-center gap-1.5">
             <SlidersHorizontal className="w-3.5 h-3.5 text-stone-400" />
-            Explore by Sensory Register
+            Explore by Taste & Mood
           </span>
           <span className="text-[11px] text-stone-400 hidden sm:inline">
-            Matches aroma volatiles & mouthfeel profiles
+            Tap a flavor to filter recipes
           </span>
         </div>
 

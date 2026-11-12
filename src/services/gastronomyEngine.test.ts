@@ -298,3 +298,27 @@ describe('GastronomyEngine - Filter and Search', () => {
     expect(guaiacolMatches.some(p => p.id === 'p2')).toBe(true);
   });
 });
+
+describe('GastronomyEngine - Computational Sensory Profiler & Secret Pairings', () => {
+  it('computes 6-dimension sensory profile and harmony score for a dish', () => {
+    const profile = GastronomyEngine.computeDishSensoryProfile(['Smoked Paprika', 'Dark Chocolate', 'Clove']);
+    expect(profile.harmonyScore).toBeGreaterThanOrEqual(65);
+    expect(profile.harmonyScore).toBeLessThanOrEqual(97);
+    expect(profile.dimensions.smoky).toBeGreaterThan(0);
+    expect(profile.dimensions.earthy).toBeGreaterThan(0);
+    expect(profile.funTwist).toBeDefined();
+    expect(typeof profile.funTwist).toBe('string');
+  });
+
+  it('provides curated scientific secret pairings with kitchen tips', () => {
+    const pairings = GastronomyEngine.getSecretPairings();
+    expect(pairings.length).toBeGreaterThanOrEqual(4);
+    pairings.forEach(p => {
+      expect(p.itemA).toBeDefined();
+      expect(p.itemB).toBeDefined();
+      expect(p.matchScore).toBeGreaterThan(80);
+      expect(p.secretLink).toBeDefined();
+      expect(p.kitchenTip).toBeDefined();
+    });
+  });
+});
